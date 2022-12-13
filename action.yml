@@ -1,0 +1,42 @@
+name: Build HVCC for Windows
+
+inputs:
+  pd-file:
+    description: 'Path to the .pd file to serve as input to hvcc'
+    required: true
+  output-patch-name:
+    description: 'Output patch name (-n argument to hvcc)'
+    required: true
+  generator:
+    description: 'The hvcc generator to use (-g argument to hvcc)'
+    required: true
+  search-paths:
+    description: 'Any search paths to use for including supplementary pd functionality (-p argument to hvcc)'
+    requried: false
+runs:
+  using: "composite"
+  steps:
+  - name: Checkout repo
+    uses: actions/checkout@v1
+  - name: Install Windows 8.1 SDK
+    shell: powershell
+    run: |
+      Invoke-WebRequest -Method Get -Uri https://go.microsoft.com/fwlink/p/?LinkId=323507 -OutFile sdksetup.exe -UseBasicParsing
+      Start-Process -Wait sdksetup.exe -ArgumentList "/q", "/norestart", "/features", "OptionId.WindowsDesktopSoftwareDevelopmentKit", "OptionId.NetFxSoftwareDevelopmentKit"
+  - name: Add msbuild to PATH
+    uses: microsoft/setup-msbuild@v1.1
+  - name: Run hvcc
+    uses: michaelpace/run-hvcc-action@464a1d2de611b96be47d322d578bdf24e908fdab
+    with:
+      pd-file: ${{ inputs.pd-file }}
+      search-paths: ${{ inputs.search-paths }}
+      generator: ${{ inputs.generator }}
+      output-patch-name: ${{ inputs.output-patch-name }}
+  - name: Create DLL
+    run: msbuild .\HeavyBuild\${{ inputs.output-patch-name }}\unity\vs2015\Hv_${{ inputs.output-patch-name }}_Unity.sln -t:rebuild -verbosity:diag -property:Configuration=Release -property:Platform=x64 -m -property:PlatformToolset=v142
+  - name: Upload DLL and CS file
+    uses: actions/upload-artifact@v3
+    with:
+      name: ${{ inputs.output-patch-name }}
+      path: |
+        HeavyBuild/${{ inputs.output-patch-name }}/unity/build/win/x64/release/
