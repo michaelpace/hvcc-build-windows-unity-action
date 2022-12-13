@@ -12,7 +12,7 @@ inputs:
     required: true
   search-paths:
     description: 'Any search paths to use for including supplementary pd functionality (-p argument to hvcc)'
-    requried: false
+    required: false
 runs:
   using: "composite"
   steps:
