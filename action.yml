@@ -33,6 +33,7 @@ runs:
       generator: ${{ inputs.generator }}
       output-patch-name: ${{ inputs.output-patch-name }}
   - name: Create DLL
+    shell: powershell
     run: msbuild .\HeavyBuild\${{ inputs.output-patch-name }}\unity\vs2015\Hv_${{ inputs.output-patch-name }}_Unity.sln -t:rebuild -verbosity:diag -property:Configuration=Release -property:Platform=x64 -m -property:PlatformToolset=v142
   - name: Upload DLL and CS file
     uses: actions/upload-artifact@v3
