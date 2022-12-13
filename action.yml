@@ -26,7 +26,7 @@ runs:
   - name: Add msbuild to PATH
     uses: microsoft/setup-msbuild@v1.1
   - name: Run hvcc
-    uses: michaelpace/run-hvcc-action@464a1d2de611b96be47d322d578bdf24e908fdab
+    uses: michaelpace/run-hvcc-action@7de02972eaea31540d8a266d8748c97dcec3b19a
     with:
       pd-file: ${{ inputs.pd-file }}
       search-paths: ${{ inputs.search-paths }}
