@@ -15,6 +15,12 @@ runs:
   steps:
   - name: Checkout repo
     uses: actions/checkout@v1
+  - name: Run debug commands (Get-Location)
+    shell: powershell
+    run: Get-Location
+  - name: Run debug commands (Get-ChildItem)
+    shell: powershell
+    run: Get-ChildItem -recurse
   - name: Install Windows 8.1 SDK
     shell: powershell
     run: |
