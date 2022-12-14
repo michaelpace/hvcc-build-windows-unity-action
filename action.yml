@@ -7,9 +7,6 @@ inputs:
   output-patch-name:
     description: 'Output patch name (-n argument to hvcc)'
     required: true
-  generator:
-    description: 'The hvcc generator to use (-g argument to hvcc)'
-    required: true
   search-paths:
     description: 'Any search paths to use for including supplementary pd functionality (-p argument to hvcc)'
     required: false
@@ -30,7 +27,7 @@ runs:
     with:
       pd-file: ${{ inputs.pd-file }}
       search-paths: ${{ inputs.search-paths }}
-      generator: ${{ inputs.generator }}
+      generator: unity
       output-patch-name: ${{ inputs.output-patch-name }}
   - name: Create DLL
     shell: powershell
