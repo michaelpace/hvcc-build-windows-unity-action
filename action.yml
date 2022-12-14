@@ -13,16 +13,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Checkout repo
-    uses: actions/checkout@v3
-    with:
-      submodules: recursive
-  - name: Run debug commands (Get-Location)
-    shell: powershell
-    run: Get-Location
-  - name: Run debug commands (Get-ChildItem)
-    shell: powershell
-    run: Get-ChildItem -recurse
   - name: Install Windows 8.1 SDK
     shell: powershell
     run: |
